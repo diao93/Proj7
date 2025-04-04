@@ -15,7 +15,7 @@ import seaborn as sns
 # local
 # API_URL = "http://127.0.0.1:8000/"
 # deployment cloud
-API_URL = "https://hrrewfnugwlj4rhj2ifafe.streamlit.app/"
+API_URL = "https://bnubnpszkapkjiwvk5lyn8.streamlit.app/"
 
 # Chargement des dataset
 data_train = pd.read_csv('train_df_sample.csv')
