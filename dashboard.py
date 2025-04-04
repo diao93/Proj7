@@ -15,7 +15,7 @@ import seaborn as sns
 st.set_page_config(page_title="Dashboard Prêt à dépenser", layout="wide")
 
 # URL de l'API
-API_URL = "https://bnubnpszkapkjiwvk5lyn8.streamlit.app/"
+API_URL = "https://gclkktbtunarfsy4xjuinj.streamlit.app/"
 
 # Chargement des datasets
 data_train = pd.read_csv('train_df_sample.csv')
