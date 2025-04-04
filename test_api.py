@@ -3,7 +3,7 @@ import requests
 import json
 
 #API_URL = "http://127.0.0.1:8000/"
-API_URL = "https://gclkktbtunarfsy4xjuinj.streamlit.app/"
+API_URL = "https://jngjhhdkqnkcvh2hyfjgmp.streamlit.app/"
 
 
 def test_welcome():
