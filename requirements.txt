@@ -1,5 +1,5 @@
 mlflow<3,>=2.3
-cffi==1.15.1
+cffi==1.14.6
 cloudpickle==2.2.1
 defusedxml==0.7.1
 imbalanced-learn==0.10.1
@@ -21,3 +21,4 @@ Pillow~=9.5.0
 plotly~=5.15.0
 pydantic~=1.10.9
 pytest~=7.4.0
+rich>=10.14.0
