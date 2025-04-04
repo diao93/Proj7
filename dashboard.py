@@ -32,11 +32,24 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-# Fonction API prédiction
+# Fonction API prédiction avec gestion des erreurs
 def get_prediction(client_id):
     url_get_pred = API_URL + "prediction/" + str(client_id)
     response = requests.get(url_get_pred)
-    proba_default = round(float(response.content), 3)
+
+    if response.status_code != 200:
+        st.error(f"Erreur lors de la récupération de la réponse de l'API. Code d'erreur : {response.status_code}")
+        return None, None
+
+    # Debug: Afficher la réponse complète pour mieux comprendre le problème
+    st.write("Réponse complète de l'API :", response.text)
+
+    try:
+        proba_default = round(float(response.content), 3)
+    except ValueError as e:
+        st.error(f"Erreur de conversion: {e}")
+        return None, None
+    
     decision = "Refusé" if proba_default >= 0.54 else "Accordé"
     return proba_default, decision
 
@@ -144,7 +157,7 @@ with st.sidebar:
 # Pages
 if page == "Home":
     st.title("🏠 Dashboard Prêt à dépenser - Accueil")
-    st.markdown("""
+    st.markdown(""" 
     Ce dashboard explique les raisons d'approbation ou de refus d'une demande de crédit à l'aide d'un modèle **LightGBM**.
     
     **Pages disponibles :**
@@ -160,9 +173,10 @@ elif page == "Information du client":
     if st.button("Statut de la demande"):
         if id_client_dash != '<Select>':
             proba, decision = get_prediction(id_client_dash)
-            st.markdown("### Résultat de la demande :")
-            st.success("✅ Crédit accordé") if decision == "Accordé" else st.error("❌ Crédit refusé")
-            jauge_score(proba)
+            if proba is not None:
+                st.markdown("### Résultat de la demande :")
+                st.success("✅ Crédit accordé") if decision == "Accordé" else st.error("❌ Crédit refusé")
+                jauge_score(proba)
 
     with st.expander("Afficher les informations du client", expanded=False):
         st.write(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash])
