@@ -207,27 +207,16 @@ elif page == "Interprétation globale":
         list_features.remove('SK_ID_CURR')
         col1, col2 = st.columns(2)
         with col1:
-            f1 = st.selectbox("Caractéristique 1", list_features, index=0)
-            df1 = data_train if scope == "Tous" else voisins
-            distribution(f1, id_client_dash, df1)
+            f1 = st.selectbox("Caractéristique 1", list_features, index=5)
         with col2:
-            f2 = st.selectbox("Caractéristique 2", list_features, index=1)
-            df2 = data_train if scope == "Tous" else voisins
-            distribution(f2, id_client_dash, df2)
+            f2 = st.selectbox("Caractéristique 2", list_features, index=4)
+        
+        if scope == "Tous":
+            scatter(id_client_dash, f1, f2, data_test)
+        else:
+            scatter(id_client_dash, f1, f2, voisins)
 
-    if st.checkbox("Analyse bivariée"):
-        scope = st.radio("Comparaison avec :", ("Tous", "Clients similaires"), key='bivar')
-        list_features = list(data_train.columns)
-        list_features.remove('SK_ID_CURR')
-        list_features.insert(0, '<Select>')
-        f1 = st.selectbox("X :", list_features, key='x')
-        f2 = st.selectbox("Y :", list_features, key='y')
-        if f1 != '<Select>' and f2 != '<Select>':
-            df_bivar = data_train if scope == "Tous" else voisins
-            scatter(id_client_dash, f1, f2, df_bivar)
+    if st.checkbox("Boxplot avec variables sélectionnées"):
+        list_feat = st.multiselect("Sélectionnez des variables", list(data_train.columns), default=['AMT_INCOME_TOTAL', 'DAYS_BIRTH'])
+        boxplot_graph(id_client_dash, list_feat, voisins)
 
-    if st.checkbox("Boxplot des caractéristiques"):
-        feat_quanti = data_train.select_dtypes(['float64']).columns
-        selected_feat = st.multiselect("Sélectionner des variables :", sorted(feat_quanti),
-                                       default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
-        boxplot_graph(id_client_dash, selected_feat, voisins)
