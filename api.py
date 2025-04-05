@@ -82,7 +82,10 @@ def get_data_voisins(client_id: int):
     indices = nn.kneighbors(reference_observation, return_distance=False)
     df_voisins = data_train.iloc[indices[0], :]
 
-    # Retourner sous forme de liste de dictionnaires ou un format orienté "records"
+    # Ajouter des logs pour faciliter le débogage
+    if df_voisins.empty:
+        return {"error": "No similar clients found"}
+    
     return df_voisins.to_dict(orient="records")
 
 
