@@ -82,7 +82,8 @@ def get_data_voisins(client_id: int):
     indices = nn.kneighbors(reference_observation, return_distance=False)
     df_voisins = data_train.iloc[indices[0], :]
 
-    return df_voisins.to_json()
+    # Retourner sous forme de liste de dictionnaires ou un format orienté "records"
+    return df_voisins.to_dict(orient="records")
 
 
 @app.get('/shaplocal/{client_id}')
