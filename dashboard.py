@@ -128,8 +128,13 @@ def df_voisins(id_client):
     """
     url_get_df_voisins = API_URL + "clients_similaires/" + str(id_client)
     response = requests.get(url_get_df_voisins)
-    data_voisins = pd.read_json(eval(response.content))
-
+    
+    try:
+        data_voisins = pd.read_json(response.content)
+    except ValueError as e:
+        st.error(f"Erreur lors de la récupération des données : {e}")
+        return pd.DataFrame()  # Retourne un DataFrame vide en cas d'erreur
+    
     return data_voisins
 
 
