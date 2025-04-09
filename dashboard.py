@@ -239,7 +239,7 @@ with st.sidebar:
     st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
     st.markdown("""---""")
-    st.write("Created by Océane Youyoutte")
+    st.write("Created by Mamadou DIALLO")
 
 
 if page == "Home":
